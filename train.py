@@ -30,13 +30,11 @@ def main(training_args, args):
 
 if __name__ == '__main__':
     parser = HfArgumentParser(TrainingArguments)
-    parser.add_argument('-m', '--model_dir', help='Model save/load directory',
-                        required=True)
-    parser.add_argument('-p', '--parallel_path',
-                        help='Path to tokenized parallel corpus',
-                        required=True)
-    parser.add_argument('-i', '--inverse',
-                        help='Train for backtranslation (target -> source)',
-                        action='store_true')
+    parser.add_argument('-m', '--model_dir', required=True,
+                        help='Model save/load directory')
+    parser.add_argument('-p', '--parallel_path', required=True,
+                        help='Path to tokenized parallel corpus')
+    parser.add_argument('-i', '--inverse', action='store_true',
+                        help='Train for backtranslation (target -> source)')
     training_args, args = parser.parse_args_into_dataclasses()
     main(training_args, args)

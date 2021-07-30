@@ -72,14 +72,11 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-c', '--corpus_path',
-                        help='Path to Lang8 corpus file',
-                        required=True)
-    parser.add_argument('-s', '--src_lines_path',
-                        help='Path to source lines in parallel corpus output',
-                        required=True)
-    parser.add_argument('-t', '--tgt_lines_path',
-                        help='Path to target lines in parallel corpus output',
-                        required=True)
+    parser.add_argument('-c', '--corpus_path', required=True,
+                        help='Path to Lang8 corpus file')
+    parser.add_argument('-s', '--src_lines_path', required=True,
+                        help='Path to source lines in parallel corpus output')
+    parser.add_argument('-t', '--tgt_lines_path', required=True,
+                        help='Path to target lines in parallel corpus output')
     args = parser.parse_args()
     main(args)
