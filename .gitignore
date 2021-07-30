@@ -1,2 +1,3 @@
 *.pyc
 corpora/
+backtranslation-model/
