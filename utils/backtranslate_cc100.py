@@ -30,9 +30,14 @@ def main(args):
         model.config.max_length = L
         if 'src' not in f:
             f.create_dataset('src', (N, L), dtype='i2')
-        for i in tqdm(range(0, N, args.batch_size)):
-            input_ids = f['tgt'][i:i+args.batch_size]
-            f['src'][i:i+args.batch_size] = backtranslate(model, input_ids)
+        B = args.batch_size
+        if args.n_steps:
+            range_end = min((args.i_offset + args.n_steps) * B, N)
+        else:
+            range_end = N
+        for i in tqdm(range(args.i_offset * B, range_end, B)):
+            input_ids = f['tgt'][i:i+B]
+            f['src'][i:i+B] = backtranslate(model, input_ids)
 
 
 if __name__ == '__main__':
@@ -45,5 +50,9 @@ if __name__ == '__main__':
                         help='Coefficient for noise in beam search scores')
     parser.add_argument('-b', '--batch_size', type=int, default=64,
                         help='Generation batch size')
+    parser.add_argument('-s', '--n_steps', type=int,
+                        help='Number of steps (batches) to generate')
+    parser.add_argument('-i', '--i_offset', type=int, default=0,
+                        help='Start generating from batch at index i')
     args = parser.parse_args()
     main(args)
