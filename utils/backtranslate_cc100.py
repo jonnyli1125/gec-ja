@@ -1,6 +1,7 @@
 import argparse
 
 import h5py
+import numpy as np
 import torch
 from tqdm import tqdm
 from transformers import T5ForConditionalGeneration
@@ -37,7 +38,10 @@ def main(args):
             range_end = N
         for i in tqdm(range(args.i_offset * B, range_end, B)):
             input_ids = f['tgt'][i:i+B]
-            f['src'][i:i+B] = backtranslate(model, input_ids)
+            bt_tokens = backtranslate(model, input_ids)
+            if bt_tokens.shape[1] < L:
+                bt_tokens = np.pad(bt_tokens, (0, L - bt_tokens.shape[1]))
+            f['src'][i:i+B] = bt_tokens
 
 
 if __name__ == '__main__':
