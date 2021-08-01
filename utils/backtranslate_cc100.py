@@ -41,6 +41,8 @@ def main(args):
             bt_tokens = backtranslate(model, input_ids)
             if bt_tokens.shape[1] < L:
                 bt_tokens = np.pad(bt_tokens, (0, L - bt_tokens.shape[1]))
+            if bt_tokens.shape[0] > B:
+                bt_tokens = bt_tokens[:B]
             f['src'][i:i+B] = bt_tokens
 
 
